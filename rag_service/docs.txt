@@ -1,0 +1,4 @@
+Artificial intelligence is a field of computer science.
+Machine learning is a subset of AI.
+Deep learning uses neural networks.
+Large language models are trained on massive datasets and can generate human-like text.

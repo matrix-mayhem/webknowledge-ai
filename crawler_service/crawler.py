@@ -1,20 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
-import numpy as np
-import pandas as pd
-import certifi
 
-def crawl_url(url):
-    response = requests.get(url, verify=certifi.where())
-    soup = BeautifulSoup(response.text,"html.parser")
-    paragraphs = [p.text for p in soup.find_all("p")]
-    df = pd.DataFrame(paragraphs,columns=['content'])
 
-    #data cleaning
-    df["length"] = df["content"].apply(len)
+def crawl_page(url):
 
-    threshold = np.mean(df["length"])
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
-    df = df[df["length"] > threshold]
+    response = requests.get(url, headers=headers)
 
-    return df
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    paragraphs = []
+
+    for p in soup.find_all("p"):
+        text = p.get_text().strip()
+
+        if text:
+            paragraphs.append(text)
+
+    return paragraphs
